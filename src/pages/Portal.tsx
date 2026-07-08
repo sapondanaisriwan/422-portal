@@ -12,7 +12,7 @@ export default function Portal() {
       case "instagram":
         return <Instagram className="h-4 w-4" />;
       case "github":
-        return <Github className="h-4 w-4" />;
+        return <Github variant="dark" className="h-4 w-4" />;
       default:
         return null;
     }
