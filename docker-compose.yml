@@ -1,0 +1,25 @@
+services:
+  wud:
+    image: fmartinou/whats-up-docker
+    container_name: wud
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WUD_LOG_LEVEL=info
+      # เปิดใช้งาน Trigger ประเภท Docker ภายในโฮสต์
+      - WUD_TRIGGER_LOCAL_TYPE=docker
+      # อนุญาตให้ระบบ Pull Image และ Recreate Container อัตโนมัติ
+      - WUD_TRIGGER_LOCAL_UPDATE=true
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  portal-frontend:
+    image: ${DOCKERHUB_USERNAME}/422-portal:latest
+    container_name: 422_portal
+    ports:
+      - "422:422"
+    labels:
+      # บอก WUD ให้ watch Container นี้
+      - "wud.watch=true"
+    restart: always
