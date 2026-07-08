@@ -1,19 +1,14 @@
 services:
-  wud:
-    image: getwud/wud
-    container_name: wud
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - TZ=Asia/Bangkok
-      - WUD_LOG_LEVEL=info
-      # เปิดใช้งาน Trigger ประเภท Docker ภายในโฮสต์
-      - WUD_WATCHER_LOCAL_WATCHBYDEFAULT=false
-      - WUD_TRIGGER_DOCKER_LOCAL_AUTO=true
-      - WUD_TRIGGER_DOCKER_LOCAL_PRUNE=true
-      - WUD_WATCHER_LOCAL_CRON=*/5 * * * *
-    ports:
-      - 3000:3000
+      - WATCHTOWER_POLL_INTERVAL=30
+      # ระบุให้เฝ้าเฉพาะคอนเทนเนอร์ที่ต้องการ (ป้องกันการอัปเดตมั่ว)
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_CLEANUP=true
     restart: unless-stopped
 
   portal-frontend:
@@ -22,6 +17,5 @@ services:
     ports:
       - "422:422"
     labels:
-      # บอก WUD ให้ watch Container นี้
-      - "wud.watch=true"
+      - "com.centurylinklabs.watchtower.enable=true"
     restart: always
