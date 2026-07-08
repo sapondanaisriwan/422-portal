@@ -1,9 +1,9 @@
-import { Facebook, Instagram } from "@thesvg/react";
-import { donateConfig } from "../config/portal.config";
+import { Facebook, Instagram, Github } from "@thesvg/react";
+import { PortalConfig } from "../config/portal.config";
 import LinkAggregator from "../components/LinkAggregator";
 
 export default function Portal() {
-  const { profile, theme } = donateConfig;
+  const { profile, theme } = PortalConfig;
 
   const renderSocialIcon = (platform: string) => {
     switch (platform.toLowerCase()) {
@@ -11,6 +11,8 @@ export default function Portal() {
         return <Facebook className="h-4 w-4" />;
       case "instagram":
         return <Instagram className="h-4 w-4" />;
+      case "github":
+        return <Github className="h-4 w-4" />;
       default:
         return null;
     }

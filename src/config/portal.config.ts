@@ -3,7 +3,7 @@ export interface SocialLink {
   url: string;
 }
 
-export interface DonateConfig {
+export interface PortalConfig {
   profile: {
     username: string;
     displayName: string;
@@ -23,7 +23,7 @@ export interface DonateConfig {
   };
 }
 
-export const donateConfig: DonateConfig = {
+export const PortalConfig: PortalConfig = {
   profile: {
     username: "422 Space",
     displayName: "422 Space",
@@ -37,7 +37,10 @@ export const donateConfig: DonateConfig = {
         platform: "Facebook",
         url: "https://www.facebook.com/shoppingmallcpecmu",
       },
-      // { platform: "Instagram", url: "" },
+      {
+        platform: "Github",
+        url: "https://github.com/sapondanaisriwan/422-portal",
+      },
     ],
   },
   theme: {
