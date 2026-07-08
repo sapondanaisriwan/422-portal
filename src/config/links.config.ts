@@ -37,4 +37,15 @@ export const linksConfig: LinkCategory[] = [
       },
     ],
   },
+  {
+    title: "การตอบกลับ",
+    items: [
+      {
+        title: "แบบฟอร์มสำรวจความคิดเห็น",
+        url: "https://docs.google.com/spreadsheets/d/1gUFRqDmuSBVhQq9JoBMyABvqA7DTed2TvPrF2vXcS10/edit?usp=sharing",
+        type: "excel",
+        isHighlight: true,
+      },
+    ],
+  },
 ];
