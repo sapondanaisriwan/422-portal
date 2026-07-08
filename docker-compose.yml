@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   portal-frontend:
-    image: ${DOCKERHUB_USERNAME}/422-portal:latest
+    image: adashima/422-portal:latest
     container_name: 422_portal
     ports:
       - "422:422"
