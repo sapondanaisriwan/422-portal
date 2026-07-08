@@ -1,15 +1,17 @@
 services:
   wud:
-    image: fmartinou/whats-up-docker
+    image: getwud/wud
     container_name: wud
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
+      - TZ=Asia/Bangkok
       - WUD_LOG_LEVEL=info
       # เปิดใช้งาน Trigger ประเภท Docker ภายในโฮสต์
-      - WUD_TRIGGER_LOCAL_TYPE=docker
-      # อนุญาตให้ระบบ Pull Image และ Recreate Container อัตโนมัติ
-      - WUD_TRIGGER_LOCAL_UPDATE=true
+      - WUD_WATCHER_LOCAL_WATCHBYDEFAULT=false
+      - WUD_TRIGGER_DOCKER_LOCAL_AUTO=true
+      - WUD_TRIGGER_DOCKER_LOCAL_PRUNE=true
+      - WUD_WATCHER_LOCAL_CRON=*/5 * * * *
     ports:
       - 3000:3000
     restart: unless-stopped
