@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "FCVision", ui-sans-serif, system-ui, sans-serif;
+  --font-fcvision: "FCVision", sans-serif;
+}
+
+@font-face {
+  font-family: "FCVision";
+  src: url("/fonts/FCVision.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FCVision";
+  src: url("/fonts/FCVisionCondensed.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
