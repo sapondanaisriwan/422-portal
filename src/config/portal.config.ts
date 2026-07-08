@@ -26,7 +26,7 @@ export interface PortalConfig {
 export const PortalConfig: PortalConfig = {
   profile: {
     username: "422 Space ทดสอบ",
-    displayName: "422 Space",
+    displayName: "422 Space ทดสอบ",
     avatarUrl: "422-logo.png",
     bannerUrl: "banner.jpg",
     avatarInitials: "422",
