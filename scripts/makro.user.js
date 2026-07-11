@@ -18,10 +18,9 @@
     container.style.bottom = '20px';
     container.style.right = '20px';
     container.style.zIndex = '9999';
-    container.style.display = 'flex';
-    container.style.gap = '10px'; // ระยะห่างระหว่างปุ่ม
+    container.style.display = 'none'; // ซ่อนปุ่มไว้เป็นค่าเริ่มต้น
+    container.style.gap = '10px';
 
-    // สไตล์พื้นฐานของปุ่มเพื่อความสวยงามและไม่ให้โค้ดซ้ำซ้อน
     const baseButtonStyle = `
         padding: 12px 20px;
         color: white;
@@ -37,17 +36,17 @@
         justify-content: center;
     `;
 
-    // 2. สร้างปุ่ม Copy Data (ปุ่มที่ 1)
+    // 2. สร้างปุ่ม Copy Data
     const copyBtn = document.createElement('button');
-    copyBtn.innerHTML = 'Copy Data';
-    copyBtn.style.cssText = baseButtonStyle + 'background-color: #1976d2;'; // สีน้ำเงิน
+    copyBtn.innerHTML = '📋 Copy Data';
+    copyBtn.style.cssText = baseButtonStyle + 'background-color: #1976d2;';
     copyBtn.onmouseover = () => copyBtn.style.backgroundColor = '#115293';
     copyBtn.onmouseout = () => copyBtn.style.backgroundColor = '#1976d2';
 
-    // 3. สร้างปุ่มเปิดเว็บ JSON to Table (ปุ่มที่ 2)
+    // 3. สร้างปุ่มเปิดเว็บ JSON to Table
     const linkBtn = document.createElement('button');
-    linkBtn.innerHTML = 'JSON to Table';
-    linkBtn.style.cssText = baseButtonStyle + 'background-color: #9c27b0;'; // สีม่วง
+    linkBtn.innerHTML = '🌐 JSON to Table';
+    linkBtn.style.cssText = baseButtonStyle + 'background-color: #9c27b0;';
     linkBtn.onmouseover = () => linkBtn.style.backgroundColor = '#7b1fa2';
     linkBtn.onmouseout = () => linkBtn.style.backgroundColor = '#9c27b0';
 
@@ -81,7 +80,7 @@
         navigator.clipboard.writeText(textToCopy).then(() => {
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '✅ Copied!';
-            copyBtn.style.backgroundColor = '#2e7d32'; // เปลี่ยนเป็นสีเขียว
+            copyBtn.style.backgroundColor = '#2e7d32';
 
             setTimeout(() => {
                 copyBtn.innerHTML = originalText;
@@ -93,22 +92,30 @@
         });
     });
 
-    // 5. การทำงานของปุ่มเปิดเว็บ JSON to Table
+    // 5. การทำงานของปุ่มเปิดเว็บ
     linkBtn.addEventListener('click', () => {
-        // เปิดหน้าเว็บใหม่ไปยัง jsontotable.org
         window.open('https://jsontotable.org/', '_blank');
     });
 
-    // นำปุ่มทั้งสองไปใส่ใน Container
     container.appendChild(copyBtn);
     container.appendChild(linkBtn);
 
-    // 6. นำ Container ไปแปะไว้ในหน้าเว็บ
+    // 6. แปะปุ่มลงในหน้าเว็บ
     const init = setInterval(() => {
         if (document.body) {
             document.body.appendChild(container);
             clearInterval(init);
         }
     }, 500);
+
+    // 7. ฟังก์ชันเช็ค URL ตลอดเวลา
+    // ถ้า URL ปัจจุบันมีคำว่า /account/orders/ ให้แสดงปุ่ม ถ้าไม่มีให้ซ่อน
+    setInterval(() => {
+        if (window.location.href.includes('https://www.makro.pro/account/orders')) {
+            container.style.display = 'flex';
+        } else {
+            container.style.display = 'none';
+        }
+    }, 500); // เช็คทุกๆ 0.5 วินาที
 
 })();
