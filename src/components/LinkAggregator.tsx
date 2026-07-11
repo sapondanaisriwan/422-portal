@@ -149,9 +149,9 @@ export default function LinkAggregator() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5 gap-4">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <div className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 ${
                   activeSnippet.type === "tampermonkey"
                     ? "text-[#00B48F] bg-[#00B48F]/10"
                     : "text-orange-400 bg-orange-400/10"
@@ -164,7 +164,7 @@ export default function LinkAggregator() {
               </div>
               <button
                 onClick={() => setActiveSnippet(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                className="text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer shrink-0"
                 title="Close"
               >
                 <X size={20} />
