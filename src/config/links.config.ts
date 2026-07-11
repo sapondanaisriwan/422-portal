@@ -58,52 +58,52 @@ export const linksConfig: LinkCategory[] = [
   {
     title: "เครื่องมือ & โค้ด",
     items: [
-      {
-        title: "Json to Table",
-        url: "https://jsontotable.org/",
-        type: "link",
-        description: "แปลง JSON เป็นตาราง HTML",
-      },
-      {
-        title: "ดึงรายการสินค้า และราคาจากหน้าเว็บ",
-        type: "snippet",
-        description: "",
-        code: `// Script by Adashima (6/7/69) //
-// ดึง ชื่อสินค้า, ราคารวม, จำนวนแพ็คที่ซื้อ และนำมาแสดงเป็นตาราง
-const products = [...document.querySelectorAll(".css-dvgoqj")].map(card => ({
-    name: card.querySelector(".main")?.textContent.trim(),
-    price: (
-        card.querySelector(".discountPriceWrapper")?.textContent ||
-        [...card.querySelectorAll("p")]
-            .find(p =>
-                !p.classList.contains("main") &&
-                !p.classList.contains("sub") &&
-                !p.classList.contains("quantity")
-            )?.textContent ||
-        ""
-    )
-        .replace(/฿/g, "")
-        .trim(),
-    quantity: card.querySelector(".quantity")?.textContent.trim()
-}));
+//       {
+//         title: "Json to Table",
+//         url: "https://jsontotable.org/",
+//         type: "link",
+//         description: "แปลง JSON เป็นตาราง HTML",
+//       },
+//       {
+//         title: "ดึงรายการสินค้า และราคาจากหน้าเว็บ",
+//         type: "snippet",
+//         description: "",
+//         code: `// Script by Adashima (6/7/69) //
+// // ดึง ชื่อสินค้า, ราคารวม, จำนวนแพ็คที่ซื้อ และนำมาแสดงเป็นตาราง
+// const products = [...document.querySelectorAll(".css-dvgoqj")].map(card => ({
+//     name: card.querySelector(".main")?.textContent.trim(),
+//     price: (
+//         card.querySelector(".discountPriceWrapper")?.textContent ||
+//         [...card.querySelectorAll("p")]
+//             .find(p =>
+//                 !p.classList.contains("main") &&
+//                 !p.classList.contains("sub") &&
+//                 !p.classList.contains("quantity")
+//             )?.textContent ||
+//         ""
+//     )
+//         .replace(/฿/g, "")
+//         .trim(),
+//     quantity: card.querySelector(".quantity")?.textContent.trim()
+// }));
 
-console.table(products);
-`,
-      },
-      {
-        title: "ดึงรูปสินค้าจากหน้าเว็บ",
-        type: "snippet",
-        description: "",
-        code: `// Script by Adashima (11/7/69) //
-// ดึงรูปสินค้ามาแสดง
-const imageData = [...document.querySelectorAll(".css-dvgoqj")].map(card => ({
-    name: card.querySelector(".main")?.textContent.trim(),
-    image: card.querySelector('img:not([aria-hidden="true"])')?.src || ""
-}));
+// console.table(products);
+// `,
+//       },
+//       {
+//         title: "ดึงรูปสินค้าจากหน้าเว็บ",
+//         type: "snippet",
+//         description: "",
+//         code: `// Script by Adashima (11/7/69) //
+// // ดึงรูปสินค้ามาแสดง
+// const imageData = [...document.querySelectorAll(".css-dvgoqj")].map(card => ({
+//     name: card.querySelector(".main")?.textContent.trim(),
+//     image: card.querySelector('img:not([aria-hidden="true"])')?.src || ""
+// }));
 
-console.log(imageData)
-`,
-      },
+// console.log(imageData)
+// `,
+//       },
       {
         title: "Auto-Collect data product from Makro",
         type: "tampermonkey",
