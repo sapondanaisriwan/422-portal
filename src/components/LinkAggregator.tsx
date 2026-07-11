@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { FileText, Link as LinkIcon, ChevronRight, Code, Copy, Check, X } from "lucide-react";
+import { FileText, Link as LinkIcon, ChevronRight, Code, Copy, Check, X, Download } from "lucide-react";
 import { linksConfig, type LinkItem, type LinkType } from "../config/links.config";
-import { GoogleForms2026, GoogleSheets2026 } from "@thesvg/react";
+import { GoogleForms2026, GoogleSheets2026, Tampermonkey } from "@thesvg/react";
 
 export default function LinkAggregator() {
   const [activeSnippet, setActiveSnippet] = useState<LinkItem | null>(null);
@@ -58,6 +58,11 @@ export default function LinkAggregator() {
           icon: <Code size={20} />,
           colorClass: "text-orange-400 bg-orange-400/10",
         };
+      case "tampermonkey":
+        return {
+          icon:  <Tampermonkey className="h-6 w-6" />,
+          colorClass: "text-[#00B48F] bg-[#00B48F]/10",
+        };
       default:
         return {
           icon: <LinkIcon size={20} />,
@@ -79,10 +84,10 @@ export default function LinkAggregator() {
               <div className="flex flex-col gap-2">
                 {category.items.map((item, itemIdx) => {
                   const meta = getLinkMeta(item.type);
-                  const isSnippet = item.type === "snippet";
+                  const isModalType = item.type === "snippet" || item.type === "tampermonkey";
 
                   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                    if (isSnippet) {
+                    if (isModalType) {
                       e.preventDefault();
                       setActiveSnippet(item);
                     }
@@ -91,11 +96,11 @@ export default function LinkAggregator() {
                   return (
                     <a
                       key={itemIdx}
-                      href={isSnippet ? undefined : item.url}
-                      target={isSnippet ? undefined : "_blank"}
-                      rel={isSnippet ? undefined : "noopener noreferrer"}
-                      onClick={isSnippet ? handleClick : undefined}
-                      role={isSnippet ? "button" : undefined}
+                      href={isModalType ? undefined : item.url}
+                      target={isModalType ? undefined : "_blank"}
+                      rel={isModalType ? undefined : "noopener noreferrer"}
+                      onClick={isModalType ? handleClick : undefined}
+                      role={isModalType ? "button" : undefined}
                       className={`group flex items-center p-3 rounded-xl transition-all duration-200 outline-none cursor-pointer w-full text-left
                         ${
                           item.isHighlight
@@ -146,8 +151,12 @@ export default function LinkAggregator() {
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-8 h-8 rounded-lg text-orange-400 bg-orange-400/10">
-                  <Code size={16} />
+                <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${
+                  activeSnippet.type === "tampermonkey"
+                    ? "text-[#00B48F] bg-[#00B48F]/10"
+                    : "text-orange-400 bg-orange-400/10"
+                }`}>
+                  {activeSnippet.type === "tampermonkey" ? <Tampermonkey className="h-4 w-4" /> : <Code size={16} />}
                 </div>
                 <h4 className="text-lg font-semibold text-white truncate">
                   {activeSnippet.title}
@@ -171,22 +180,36 @@ export default function LinkAggregator() {
               )}
 
               <div className="relative group/code rounded-xl overflow-hidden border border-white/5 bg-neutral-900">
-                {/* Copy Button */}
-                <button
-                  onClick={handleCopy}
-                  className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 cursor-pointer
-                    ${
-                      copied
-                        ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                        : "bg-white/5 text-neutral-300 border-white/10 hover:bg-white/10 hover:text-white"
-                    }
-                  `}
-                >
-                  {copied ? <Check size={13} /> : <Copy size={13} />}
-                  <span>{copied ? "คัดลอกแล้ว!" : "คัดลอก"}</span>
-                </button>
+                {/* Copy / Actions Panel */}
+                <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
+                  {activeSnippet.type === "tampermonkey" && activeSnippet.url && (
+                    <a
+                      href={activeSnippet.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#00B48F]/20 text-[#00B48F] border border-[#00B48F]/30 hover:bg-[#00B48F]/30 transition-all duration-200 cursor-pointer"
+                    >
+                      <Download size={13} />
+                      <span>ติดตั้ง Script</span>
+                    </a>
+                  )}
 
-                <pre className="p-5 font-mono text-sm text-neutral-200 overflow-x-auto whitespace-pre leading-relaxed select-text text-left max-h-[50vh]">
+                  <button
+                    onClick={handleCopy}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 cursor-pointer
+                      ${
+                        copied
+                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                          : "bg-white/5 text-neutral-300 border-white/10 hover:bg-white/10 hover:text-white"
+                      }
+                    `}
+                  >
+                    {copied ? <Check size={13} /> : <Copy size={13} />}
+                    <span>{copied ? "คัดลอกแล้ว!" : "คัดลอก"}</span>
+                  </button>
+                </div>
+
+                <pre className="p-5 pt-16 sm:pt-5 font-mono text-sm text-neutral-200 overflow-x-auto whitespace-pre leading-relaxed select-text text-left max-h-[50vh]">
                   <code>{activeSnippet.code}</code>
                 </pre>
               </div>
