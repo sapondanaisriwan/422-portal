@@ -39,14 +39,14 @@
 
     // 2. สร้างปุ่ม Copy Data (ปุ่มที่ 1)
     const copyBtn = document.createElement('button');
-    copyBtn.innerHTML = '📋 Copy Data';
+    copyBtn.innerHTML = 'Copy Data';
     copyBtn.style.cssText = baseButtonStyle + 'background-color: #1976d2;'; // สีน้ำเงิน
     copyBtn.onmouseover = () => copyBtn.style.backgroundColor = '#115293';
     copyBtn.onmouseout = () => copyBtn.style.backgroundColor = '#1976d2';
 
     // 3. สร้างปุ่มเปิดเว็บ JSON to Table (ปุ่มที่ 2)
     const linkBtn = document.createElement('button');
-    linkBtn.innerHTML = '🌐 JSON to Table';
+    linkBtn.innerHTML = 'JSON to Table';
     linkBtn.style.cssText = baseButtonStyle + 'background-color: #9c27b0;'; // สีม่วง
     linkBtn.onmouseover = () => linkBtn.style.backgroundColor = '#7b1fa2';
     linkBtn.onmouseout = () => linkBtn.style.backgroundColor = '#9c27b0';
