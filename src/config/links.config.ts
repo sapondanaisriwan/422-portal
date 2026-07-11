@@ -1,4 +1,10 @@
-export type LinkType = "form" | "excel" | "doc" | "link" | "snippet" | "tampermonkey";
+export type LinkType =
+  | "form"
+  | "excel"
+  | "doc"
+  | "link"
+  | "snippet"
+  | "tampermonkey";
 
 export interface LinkItem {
   title: string;
@@ -98,15 +104,10 @@ const imageData = [...document.querySelectorAll(".css-dvgoqj")].map(card => ({
 console.log(imageData)
 `,
       },
-    ],
-  },
-  {
-    title: "Tampermonkey Scripts",
-    items: [
       {
-        title: "Auto-Fill 422 Registration Helper",
+        title: "Auto-Collect data product from Makro",
         type: "tampermonkey",
-        description: "สคริปต์ช่วยกรอกข้อมูลลงทะเบียน 422 อัตโนมัติ",
+        description: "สคริปต์ช่วยดึงข้อมูลจาก Makro",
         url: "https://github.com/sapondanaisriwan/422-portal/raw/main/scripts/makro.user.js",
         code: `// ==UserScript==
 // @name         Copy Product Data
@@ -222,7 +223,7 @@ console.log(imageData)
     }, 500);
 
 })();`,
-        isHighlight: true,
+        isHighlight: false,
       },
     ],
   },
