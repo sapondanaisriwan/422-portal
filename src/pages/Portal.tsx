@@ -1,21 +1,36 @@
 import { useState, useEffect } from "react";
 import { Facebook, Instagram, Github } from "@thesvg/react";
-import { QrCode, Users, Link as LinkIcon } from "lucide-react";
+import { QrCode, Users, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import { PortalConfig } from "../config/portal.config";
 import LinkAggregator from "../components/LinkAggregator";
+// @ts-ignore
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
+// Glob import for gallery images in public/gallery folder
+const galleryModules = import.meta.glob("/public/gallery/*.{png,jpg,jpeg,gif,webp,svg,PNG,JPG,JPEG}", { eager: true });
+const galleryItems = Object.keys(galleryModules).map((path, idx) => {
+  const imageUrl = path.replace("/public", "");
+  const filename = path.split("/").pop() || "";
+  const title = filename.replace(/\.[^/.]+$/, "");
+  return {
+    id: `gal-${idx}`,
+    title: title,
+    imageUrl: imageUrl,
+  };
+});
 
 export default function Portal() {
   const { profile, theme } = PortalConfig;
   const [activeTab, setActiveTab] = useState<string>(() => {
     const hash = window.location.hash.replace("#", "");
-    return ["links", "announcements", "qrcodes", "managers"].includes(hash) ? hash : "links";
+    return ["links", "gallery", "announcements", "qrcodes", "managers"].includes(hash) ? hash : "links";
   });
-  const [activeImagePreview, setActiveImagePreview] = useState<{ title: string; imageUrl: string } | null>(null);
+  const [activeImagePreview, setActiveImagePreview] = useState<{ title: string; imageUrl: string; type?: "qr" | "manager" | "gallery" | "profile" } | null>(null);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
-      if (["links", "announcements", "qrcodes", "managers"].includes(hash)) {
+      if (["links", "gallery", "announcements", "qrcodes", "managers"].includes(hash)) {
         setActiveTab(hash);
       }
     };
@@ -61,6 +76,7 @@ export default function Portal() {
 
   const mainTabs = [
     { id: "links", label: "ลิงก์ทั้งหมด", icon: <LinkIcon size={16} /> },
+    { id: "gallery", label: "แกลเลอรี", icon: <ImageIcon size={16} /> },
     // { id: "announcements", label: "ข่าวประกาศ", icon: <Megaphone size={16} /> },
     { id: "qrcodes", label: "คิวอาร์โค้ด", icon: <QrCode size={16} /> },
     { id: "managers", label: "ผู้ดูแลร้านค้า", icon: <Users size={16} /> },
@@ -94,6 +110,33 @@ export default function Portal() {
     );
   };
 
+  const renderGallery = () => {
+    return (
+      <div className="w-full max-w-3xl mx-auto px-4 md:px-0 animate-fade-in text-left">
+        {/* @ts-ignore */}
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 1024: 3 }}>
+          {/* @ts-ignore */}
+          <Masonry gutter="16px">
+            {galleryItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveImagePreview({ title: item.title, imageUrl: item.imageUrl, type: "gallery" })}
+                className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-white/20 hover:scale-[1.01] transition-all duration-300 group cursor-zoom-in outline-none focus:border-orange-500"
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full h-auto object-cover select-none block"
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
+      </div>
+    );
+  };
+
   const renderQRCodes = () => {
     return (
       <div className="w-full max-w-3xl mx-auto px-4 md:px-0 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in text-left">
@@ -119,7 +162,7 @@ export default function Portal() {
               </p>
               
               <button
-                onClick={() => setActiveImagePreview({ title: qr.title, imageUrl: qrCodeUrl })}
+                onClick={() => setActiveImagePreview({ title: qr.title, imageUrl: qrCodeUrl, type: "qr" })}
                 className="relative p-4 bg-white rounded-2xl overflow-hidden shadow-2xl group-hover:scale-[1.03] transition-all duration-300 w-52 h-52 flex items-center justify-center cursor-zoom-in outline-none border-2 border-transparent focus:border-orange-500"
                 title="คลิกเพื่อขยายรูปภาพ"
               >
@@ -146,7 +189,7 @@ export default function Portal() {
           >
             {mgr.avatarUrl ? (
               <button
-                onClick={() => setActiveImagePreview({ title: mgr.name, imageUrl: mgr.avatarUrl! })}
+                onClick={() => setActiveImagePreview({ title: mgr.name, imageUrl: mgr.avatarUrl!, type: "manager" })}
                 className="w-36 h-36 rounded-2xl flex items-center justify-center text-orange-400 font-bold text-2xl mb-4 relative shadow-inner shadow-orange-500/10 shrink-0 overflow-hidden cursor-zoom-in outline-none focus:border-orange-500 hover:scale-[1.03] transition-all duration-300"
                 title="คลิกเพื่อขยายรูปโปรไฟล์"
               >
@@ -235,13 +278,19 @@ export default function Portal() {
         {/* Profile Section */}
         <div className="sm:px-16 md:px-8 w-full -mt-[60px] md:-mt-[75px] flex flex-col items-center md:flex-row md:items-start md:gap-8 transition-all duration-300 justify-center">
           <div className="relative">
-            <div className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px] bg-neutral-700 rounded-full overflow-hidden relative flex items-center justify-center shrink-0">
+            <div className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px] bg-neutral-700 rounded-full overflow-hidden relative flex items-center justify-center shrink-0 border border-white/10 shadow-2xl">
               {profile.avatarUrl ? (
-                <img
-                  src={profile.avatarUrl}
-                  alt="Profile"
-                  className="w-full h-full object-cover object-center"
-                />
+                <button
+                  onClick={() => setActiveImagePreview({ title: profile.displayName, imageUrl: profile.avatarUrl, type: "profile" })}
+                  className="w-full h-full cursor-zoom-in outline-none flex items-center justify-center"
+                  title="คลิกเพื่อขยายรูปโปรไฟล์"
+                >
+                  <img
+                    src={profile.avatarUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </button>
               ) : (
                 <span className="text-neutral-500 font-bold text-2xl">
                   {profile.avatarInitials}
@@ -300,6 +349,7 @@ export default function Portal() {
             {/* Tab Contents */}
             <div className="w-full transition-all duration-300">
               {activeTab === "links" && <LinkAggregator />}
+              {activeTab === "gallery" && renderGallery()}
               {activeTab === "announcements" && renderAnnouncements()}
               {activeTab === "qrcodes" && renderQRCodes()}
               {activeTab === "managers" && renderManagers()}
@@ -315,23 +365,34 @@ export default function Portal() {
           onClick={() => setActiveImagePreview(null)}
         >
           <div 
-            className="flex flex-col items-center gap-4 max-w-md w-full scale-100"
-            onClick={(e) => e.stopPropagation()}
+            className="flex flex-col items-center gap-4 max-w-4xl w-full scale-100"
           >
-            <div className="relative p-6 bg-white rounded-3xl overflow-hidden shadow-2xl w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center border border-white/10">
+            {activeImagePreview.type === "qr" ? (
+              // Large white background box for QR Code so it remains easily scannable
+              <div className="relative p-6 sm:p-8 bg-white rounded-3xl overflow-hidden shadow-2xl w-80 h-80 sm:w-[420px] sm:h-[420px] flex items-center justify-center border border-white/10">
+                <img
+                  src={activeImagePreview.imageUrl}
+                  alt={activeImagePreview.title}
+                  className="w-full h-full object-contain select-none"
+                />
+              </div>
+            ) : (
+              // Clean borderless full-size preview for gallery, manager profile, and main profile
               <img
                 src={activeImagePreview.imageUrl}
                 alt={activeImagePreview.title}
-                className="w-full h-full object-contain select-none"
+                className="max-w-[95vw] max-h-[80vh] md:max-h-[85vh] object-contain rounded-2xl shadow-2xl select-none"
               />
-            </div>
+            )}
             
-            <div className="text-center flex flex-col gap-1.5 px-4">
-              <h4 className="text-lg font-bold text-white">
-                {activeImagePreview.title}
-              </h4>
+            <div className="text-center flex flex-col gap-1 px-4">
+              {activeImagePreview.type !== "gallery" && (
+                <h4 className="text-lg font-bold text-white">
+                  {activeImagePreview.title}
+                </h4>
+              )}
               <p className="text-xs text-white/50">
-                กดพื้นที่ว่างบนหน้าจอ หรือกดปุ่ม ESC เพื่อปิด
+                คลิกที่ใดก็ได้บนหน้าจอ หรือกดปุ่ม ESC เพื่อปิด
               </p>
             </div>
           </div>
