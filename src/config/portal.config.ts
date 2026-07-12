@@ -106,12 +106,12 @@ export const PortalConfig: PortalConfig = {
     {
       id: "mgr-1",
       name: "สพลดนัย ศรีวรรณ์ (ซอฟท์)",
-      avatarUrl: "manager/nongmeow.jpg",
+      avatarUrl: "manager/ayanokoji2.jpg",
     },
     {
       id: "mgr-2",
       name: "กิตติพงศ์ ไชยายอง (กอล์ฟ)",
-      avatarUrl: "manager/nongmeow.jpg",
+      avatarUrl: "manager/johan.webp",
     },
   ],
 };
