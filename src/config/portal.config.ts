@@ -96,7 +96,7 @@ export const PortalConfig: PortalConfig = {
   qrcodes: [
     {
       id: "qr-1",
-      title: "PromptPay (รับเงินร้านค้า 422)",
+      title: "PromptPay",
       description:
         "สแกน QR Code เพื่อโอนเงินชำระค่าสินค้าและบริการของร้านค้า 422 Space",
       url: "qrcode.png",
