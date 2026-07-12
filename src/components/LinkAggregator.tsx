@@ -73,8 +73,8 @@ export default function LinkAggregator() {
 
   return (
     <>
-      <div className="w-full max-w-3xl mx-auto mt-12 px-4 md:px-0">
-        <div className="flex flex-col gap-8">
+      <div className="w-full max-w-3xl mx-auto mt-6 px-4 md:px-0">
+        <div className="flex flex-col gap-8 transition-all duration-300">
           {linksConfig.map((category, idx) => (
             <section key={idx} className="w-full">
               <h3 className="text-sm font-semibold text-white/50 tracking-wider uppercase mb-3 px-1">
