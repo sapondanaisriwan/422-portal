@@ -48,8 +48,8 @@ export const linksConfig: LinkCategory[] = [
     title: "การตอบกลับ",
     items: [
       {
-        title: "แบบฟอร์มสำรวจความคิดเห็น",
-        url: "https://docs.google.com/spreadsheets/d/1gUFRqDmuSBVhQq9JoBMyABvqA7DTed2TvPrF2vXcS10/edit?usp=sharing",
+        title: "ลำดับการสมัครตะกร้าคุณธรรม",
+        url: "https://docs.google.com/spreadsheets/d/13H1j1Rm5AbROEaXFa_WpcDP9yb0nai_yBFAuPR4P5MU/edit?usp=sharing",
         type: "excel",
         isHighlight: true,
       },
