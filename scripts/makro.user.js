@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Copy Product Data
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/sapondanaisriwan/422-portal/raw/main/scripts/makro.user.js
 // @version      1.0
 // @description  เพิ่มปุ่ม Copy ข้อมูลสินค้าจากหน้าเว็บ
 // @match        https://www.makro.pro/*
