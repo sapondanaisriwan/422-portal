@@ -31,6 +31,13 @@ export const linksConfig: LinkCategory[] = [
         description: "ตรวจสอบรายรับ รายจ่าย ต้นทุน",
         isHighlight: true,
       },
+      {
+        title: "บัญชี ตะกร้าคุณธรรม",
+        url: "https://docs.google.com/spreadsheets/d/1-60dORqDzF0kdouGRDyux5SAxBLi7nfkgeNpnargv-0/edit?usp=sharing",
+        type: "excel",
+        description: "ตรวจสอบรายรับ รายจ่าย",
+        isHighlight: true,
+      },
     ],
   },
   {
